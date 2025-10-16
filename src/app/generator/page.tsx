@@ -2,23 +2,59 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabaseClient";
+import { toast } from "sonner"; // optional toast lib if you use it
 
 export default function EmojiGeneratorPage() {
-  const [base, setBase] = useState("()");
-  const [eyes, setEyes] = useState("•");
-  const [mouth, setMouth] = useState("‿");
-  const [arms, setArms] = useState("");
-  const [accessory, setAccessory] = useState("");
+  const bases = ["()", "{}", "[]", "<>"];
+  const eyesList = ["•", "^", "¬", "x", "o"];
+  const mouths = ["‿", "ᴥ", "﹏", "_", "ᴗ"];
+  const armsList = ["", "ʕʔ", "( )", "¯¯", "ᕦᕤ"];
+  const accessories = ["", "★", "♡", "♪", "☀️"];
+
+  const [base, setBase] = useState(bases[0]);
+  const [eyes, setEyes] = useState(eyesList[0]);
+  const [mouth, setMouth] = useState(mouths[0]);
+  const [arms, setArms] = useState(armsList[0]);
+  const [accessory, setAccessory] = useState(accessories[0]);
 
   const generateEmoji = () => {
-    // If arms exist, they wrap the whole thing
     if (arms)
-      return `${arms[0]}${base[0]}${eyes}${mouth}${eyes}${base[1]}${arms[1]}`;
+      return `${arms[0]}${base[0]}${eyes}${mouth}${eyes}${base[1]}${arms[1]}${accessory}`;
     return `${base[0]}${eyes}${mouth}${eyes}${base[1]}${accessory}`;
   };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generateEmoji());
+    toast?.success("Emoji copied!");
+  };
+
+  const handleRandomize = () => {
+    setBase(bases[Math.floor(Math.random() * bases.length)]);
+    setEyes(eyesList[Math.floor(Math.random() * eyesList.length)]);
+    setMouth(mouths[Math.floor(Math.random() * mouths.length)]);
+    setArms(armsList[Math.floor(Math.random() * armsList.length)]);
+    setAccessory(accessories[Math.floor(Math.random() * accessories.length)]);
+  };
+
+  const handleSave = async () => {
+    const symbol = generateEmoji();
+
+    const { data, error } = await supabase.from("emoticons").insert([
+      {
+        symbol,
+
+        category_id: "753aedb6-b751-4ead-a0fc-0738bb31908b",
+        created_at: new Date(),
+      },
+    ]);
+
+    if (error) {
+      console.error(error);
+      toast?.error("Failed to save emoji 😢");
+    } else {
+      toast?.success("Emoji saved successfully! 🎉");
+    }
   };
 
   return (
@@ -35,97 +71,79 @@ export default function EmojiGeneratorPage() {
 
         {/* Dropdowns */}
         <div className="space-y-4">
-          {/* Base */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Base</label>
-            <select
-              className="w-full border rounded p-2 bg-transparent"
-              value={base}
-              onChange={(e) => setBase(e.target.value)}
-            >
-              <option value="()">()</option>
-              <option value="{}">{`{}`}</option>
-              <option value="[]">[]</option>
-              <option value="<>">&lt;&gt;</option>
-            </select>
-          </div>
-
-          {/* Eyes */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Eyes</label>
-            <select
-              className="w-full border rounded p-2 bg-transparent"
-              value={eyes}
-              onChange={(e) => setEyes(e.target.value)}
-            >
-              <option value="•">•</option>
-              <option value="^">^</option>
-              <option value="¬">¬</option>
-              <option value="x">x</option>
-              <option value="o">o</option>
-            </select>
-          </div>
-
-          {/* Mouth / Nose */}
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Mouth / Nose
-            </label>
-            <select
-              className="w-full border rounded p-2 bg-transparent"
-              value={mouth}
-              onChange={(e) => setMouth(e.target.value)}
-            >
-              <option value="‿">‿</option>
-              <option value="ᴥ">ᴥ</option>
-              <option value="﹏">﹏</option>
-              <option value="_">_</option>
-              <option value="ᴗ">ᴗ</option>
-            </select>
-          </div>
-
-          {/* Arms */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Arms</label>
-            <select
-              className="w-full border rounded p-2 bg-transparent"
-              value={arms}
-              onChange={(e) => setArms(e.target.value)}
-            >
-              <option value="">None</option>
-              <option value="ʕʔ">ʕʔ</option>
-              <option value="( )">( )</option>
-              <option value="¯¯">¯¯</option>
-              <option value="ᕦᕤ">ᕦᕤ</option>
-            </select>
-          </div>
-
-          {/* Accessory */}
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Accessory / Decor
-            </label>
-            <select
-              className="w-full border rounded p-2 bg-transparent"
-              value={accessory}
-              onChange={(e) => setAccessory(e.target.value)}
-            >
-              <option value="">None</option>
-              <option value="★">★</option>
-              <option value="♡">♡</option>
-              <option value="♪">♪</option>
-              <option value="☀️">☀️</option>
-            </select>
-          </div>
+          <Dropdown
+            label="Base"
+            value={base}
+            options={bases}
+            setValue={setBase}
+          />
+          <Dropdown
+            label="Eyes"
+            value={eyes}
+            options={eyesList}
+            setValue={setEyes}
+          />
+          <Dropdown
+            label="Mouth / Nose"
+            value={mouth}
+            options={mouths}
+            setValue={setMouth}
+          />
+          <Dropdown
+            label="Arms"
+            value={arms}
+            options={armsList}
+            setValue={setArms}
+          />
+          <Dropdown
+            label="Accessory / Decor"
+            value={accessory}
+            options={accessories}
+            setValue={setAccessory}
+          />
         </div>
 
-        {/* Copy Button */}
-        <div className="mt-6">
-          <Button onClick={handleCopy} variant="secondary">
-            Copy Emoticon
+        {/* Buttons */}
+        <div className="flex flex-wrap justify-center gap-3 mt-6">
+          <Button variant="outline" onClick={handleCopy}>
+            Copy
+          </Button>
+          <Button onClick={handleRandomize}>Randomize</Button>
+          <Button variant="outline" onClick={handleSave}>
+            Save to the collection
           </Button>
         </div>
       </div>
     </main>
+  );
+}
+
+// Small dropdown subcomponent
+type DropdownProps = {
+  label: string;
+  value: string;
+  options: string[];
+  setValue: (value: string) => void;
+};
+
+function Dropdown({ label, value, options, setValue }: DropdownProps) {
+  return (
+    <div className="text-left">
+      <label className="block text-sm font-medium mb-1.5 text-gray-600 dark:text-gray-300">
+        {label} 
+      </label>
+
+      <select
+        className="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 appearance-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 cursor-pointer shadow-sm hover:border-gray-400 dark:hover:border-gray-500"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      >
+        {options.map((opt, i) => (
+          <option key={i} value={opt} className="dark:bg-gray-800">
+            {opt || "None (Remove)"}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
