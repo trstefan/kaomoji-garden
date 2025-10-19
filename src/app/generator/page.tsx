@@ -3,20 +3,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
-import { toast } from "sonner"; // optional toast lib if you use it
+import { toast } from "sonner";
+import data from "@/data/emoticonParts.json"; // 👈 import JSON file
 
 export default function EmojiGeneratorPage() {
-  const bases = ["()", "{}", "[]", "<>"];
-  const eyesList = ["•", "^", "¬", "x", "o"];
-  const mouths = ["‿", "ᴥ", "﹏", "_", "ᴗ"];
-  const armsList = ["", "ʕʔ", "( )", "¯¯", "ᕦᕤ"];
-  const accessories = ["", "★", "♡", "♪", "☀️"];
-
-  const [base, setBase] = useState(bases[0]);
-  const [eyes, setEyes] = useState(eyesList[0]);
-  const [mouth, setMouth] = useState(mouths[0]);
-  const [arms, setArms] = useState(armsList[0]);
-  const [accessory, setAccessory] = useState(accessories[0]);
+  // Initialize from JSON data
+  const [base, setBase] = useState(data.base[0]);
+  const [eyes, setEyes] = useState(data.eyes[0]);
+  const [mouth, setMouth] = useState(data.mouth[0]);
+  const [arms, setArms] = useState(data.arms[0]);
+  const [accessory, setAccessory] = useState(data.accessory[0]);
 
   const generateEmoji = () => {
     if (arms)
@@ -30,21 +26,22 @@ export default function EmojiGeneratorPage() {
   };
 
   const handleRandomize = () => {
-    setBase(bases[Math.floor(Math.random() * bases.length)]);
-    setEyes(eyesList[Math.floor(Math.random() * eyesList.length)]);
-    setMouth(mouths[Math.floor(Math.random() * mouths.length)]);
-    setArms(armsList[Math.floor(Math.random() * armsList.length)]);
-    setAccessory(accessories[Math.floor(Math.random() * accessories.length)]);
+    setBase(data.base[Math.floor(Math.random() * data.base.length)]);
+    setEyes(data.eyes[Math.floor(Math.random() * data.eyes.length)]);
+    setMouth(data.mouth[Math.floor(Math.random() * data.mouth.length)]);
+    setArms(data.arms[Math.floor(Math.random() * data.arms.length)]);
+    setAccessory(
+      data.accessory[Math.floor(Math.random() * data.accessory.length)]
+    );
   };
 
   const handleSave = async () => {
     const symbol = generateEmoji();
 
-    const { data, error } = await supabase.from("emoticons").insert([
+    const { error } = await supabase.from("emoticons").insert([
       {
         symbol,
-
-        category_id: "753aedb6-b751-4ead-a0fc-0738bb31908b",
+        category_id: "753aedb6-b751-4ead-a0fc-0738bb31908b", // "By users"
         created_at: new Date(),
       },
     ]);
@@ -74,31 +71,31 @@ export default function EmojiGeneratorPage() {
           <Dropdown
             label="Base"
             value={base}
-            options={bases}
+            options={data.base}
             setValue={setBase}
           />
           <Dropdown
             label="Eyes"
             value={eyes}
-            options={eyesList}
+            options={data.eyes}
             setValue={setEyes}
           />
           <Dropdown
             label="Mouth / Nose"
             value={mouth}
-            options={mouths}
+            options={data.mouth}
             setValue={setMouth}
           />
           <Dropdown
             label="Arms"
             value={arms}
-            options={armsList}
+            options={data.arms}
             setValue={setArms}
           />
           <Dropdown
             label="Accessory / Decor"
             value={accessory}
-            options={accessories}
+            options={data.accessory}
             setValue={setAccessory}
           />
         </div>
@@ -118,7 +115,7 @@ export default function EmojiGeneratorPage() {
   );
 }
 
-// Small dropdown subcomponent
+// Dropdown Subcomponent
 type DropdownProps = {
   label: string;
   value: string;
@@ -130,9 +127,8 @@ function Dropdown({ label, value, options, setValue }: DropdownProps) {
   return (
     <div className="text-left">
       <label className="block text-sm font-medium mb-1.5 text-gray-600 dark:text-gray-300">
-        {label} 
+        {label}
       </label>
-
       <select
         className="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 appearance-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 cursor-pointer shadow-sm hover:border-gray-400 dark:hover:border-gray-500"
         value={value}
