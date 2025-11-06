@@ -45,7 +45,7 @@ export default function NotFound() {
           </div>
 
           <p className="text-xl md:text-2xl font-bold text-[#28443F]">
-            Don't worry, you can still go home!
+            Don&#39;t worry, you can still go home!
           </p>
         </div>
 

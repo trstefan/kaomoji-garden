@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 import EmoticonGrid from "@/components/EmoticonGrid";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 export default async function CategoryPage({
   params,

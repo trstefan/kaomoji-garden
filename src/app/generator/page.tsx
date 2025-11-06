@@ -142,21 +142,21 @@ export default function EmojiGeneratorPage() {
 }
 
 // Dropdown Subcomponent
-type DropdownProps = {
+type DropdownProps<T> = {
   label: string;
-  value: string | string[];
-  options: (string | string[])[];
-  setValue: (value: any) => void;
+  value: T;
+  options: T[];
+  setValue: (value: T) => void;
   fullWidth?: boolean;
 };
 
-function Dropdown({
+function Dropdown<T extends string | string[]>({
   label,
   value,
   options,
   setValue,
   fullWidth,
-}: DropdownProps) {
+}: DropdownProps<T>) {
   const displayValue = Array.isArray(value) ? value.join("") : value;
 
   return (
