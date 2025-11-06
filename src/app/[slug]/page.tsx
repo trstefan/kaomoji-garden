@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 import EmoticonGrid from "@/components/EmoticonGrid";
+import { notFound, redirect } from "next/navigation";
 
 export default async function CategoryPage({
   params,
@@ -12,7 +13,7 @@ export default async function CategoryPage({
     .eq("slug", params.slug)
     .single();
 
-  if (!category) return <p>Category not found</p>;
+  if (!category) notFound();
 
   const { data: emoticons } = await supabase
     .from("emoticons")
@@ -21,10 +22,10 @@ export default async function CategoryPage({
 
   return (
     <main className="max-w-3xl mx-auto py-8 px-3 sm:px-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-4">
+      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#28443F] mb-6 leading-tight text-balance text-center">
         {category.name} {category.icon}
       </h1>
-      <p className="text-center mb-8 text-neutral-500 text-base sm:text-lg">
+      <p className="text-lg sm:text-xl text-[#28443F] mb-8 leading-relaxed text-center">
         {category.description}
       </p>
 
