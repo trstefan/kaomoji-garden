@@ -10,7 +10,6 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      {/* Hero Section */}
       <section className="bg-[#F2FD7D] border-b-4 border-black overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 py-12 sm:py-20">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
@@ -40,8 +39,8 @@ export default async function HomePage() {
                 </a>
               </div>
             </div>
-
-            <div className="hidden lg:block animate-in fade-in zoom-in duration-1000 delay-300">
+            {/*Emoji Block */}
+            <div className="hidden lg:block animate-in fade-in slide-in-from-left duration-700">
               <div className="bg-white border-4 border-black rounded-2xl shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-8 text-center relative group">
                 {/* Floating decor */}
                 <div className="absolute -top-6 -right-6 text-4xl animate-float">
