@@ -10,41 +10,57 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#F2FD7D] border-b-4 border-black">
-        <div className="max-w-6xl mx-auto px-4  py-12 sm:py-20 ">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center ">
-            <div>
+      {/* Hero Section */}
+      <section className="bg-[#F2FD7D] border-b-4 border-black overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 py-12 sm:py-20">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+            <div className="animate-in fade-in slide-in-from-left duration-700">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-[#28443F] mb-6 leading-tight text-balance">
-                Say It with Style
+                Say It with{" "}
+                <span className="bg-white px-2 border-2 border-black inline-block transform -rotate-2">
+                  Style
+                </span>
               </h1>
-              <p className="text-lg sm:text-xl text-[#28443F] mb-8 leading-relaxed">
+              <p className="text-lg sm:text-xl text-[#28443F] mb-8 leading-relaxed max-w-lg">
                 Express every mood with thousands of kaomoji. Explore pre-made
                 faces or craft your own unique text expressions.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/generator"
-                  className="inline-block bg-[#28443F] text-[#F2FD7D] px-8 py-4 rounded-lg font-bold text-lg border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 text-center"
+                  className="inline-block bg-[#28443F] text-[#F2FD7D] px-8 py-4 rounded-lg font-bold text-lg border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[6px] hover:translate-y-[6px] transition-all duration-200 text-center"
                 >
                   &#x2699;&#xFE0F; Try the Generator
                 </Link>
-                <Link
+                <a
                   href="#categories"
-                  className="inline-block bg-white text-[#28443F] px-8 py-4 rounded-lg font-bold text-lg border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 text-center"
+                  className="inline-block bg-white text-[#28443F] px-8 py-4 rounded-lg font-bold text-lg border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[6px] hover:translate-y-[6px] transition-all duration-200 text-center"
                 >
                   Browse Kaomoji
-                </Link>
+                </a>
               </div>
             </div>
-            <div className="hidden lg:block">
-              <div className="bg-white border-4 border-black rounded-2xl shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-8 text-center">
-                <div className="text-8xl mb-4">
+
+            <div className="hidden lg:block animate-in fade-in zoom-in duration-1000 delay-300">
+              <div className="bg-white border-4 border-black rounded-2xl shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-8 text-center relative group">
+                {/* Floating decor */}
+                <div className="absolute -top-6 -right-6 text-4xl animate-float">
+                  ✨
+                </div>
+                <div
+                  className="absolute -bottom-6 -left-6 text-4xl animate-float"
+                  style={{ animationDelay: "1s" }}
+                >
+                  🌸
+                </div>
+
+                <div className="text-8xl mb-4  cursor-default">
                   &#xFF08;&#x25D4;&#x203F;&#x25D4;&#xFF09;
                 </div>
-                <div className="text-6xl mb-4">
+                <div className="text-6xl mb-4 text-gray-300 opacity-50 select-none">
                   &#xFF08;&#x2022;&#x203F;&#x2022;&#xFF09;
                 </div>
-                <div className="text-7xl">
+                <div className="text-7xl group-hover:text-[#28443F] transition-colors duration-300">
                   &#xFF0E;&#x25D4;&#x203F;&#x203F;&#x25D4;&#xFF0E;
                 </div>
               </div>
@@ -99,20 +115,29 @@ export default async function HomePage() {
       </main>
 
       {/* Footer CTA */}
-      <section className="bg-[#28443F] border-t-4 border-black py-16 px-4 sm:px-6 mt-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-4xl sm:text-5xl font-black text-[#F2FD7D] mb-6">
+      <section className="bg-[#28443F] border-t-4 border-black py-20 px-4 sm:px-6 mt-16 relative overflow-hidden">
+        {/* Animated Background Icons */}
+        <div className="absolute top-10 left-10 text-[#F2FD7D]/10 text-9xl transform -rotate-12 select-none">
+          (^.^)
+        </div>
+        <div className="absolute bottom-10 right-10 text-[#F2FD7D]/10 text-9xl transform rotate-12 select-none">
+          (o_O)
+        </div>
+
+        <div className="max-w-3xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl sm:text-6xl font-black text-[#F2FD7D] mb-6 tracking-tighter">
             Don&#39;t Just Type.
-            <span className="italic"> Emote.</span>
+            <span className="italic block sm:inline"> Emote.</span>
           </h2>
-          <p className="text-lg text-[#F2FD7D]/90 mb-8 leading-relaxed">
+          <p className="text-lg text-[#F2FD7D]/90 mb-10 leading-relaxed max-w-xl mx-auto">
             Access the full library and create your own text faces for free.
+            Start expressing your true self today.
           </p>
           <Link
             href="/generator"
-            className="inline-block bg-[#F2FD7D] text-[#28443F] px-10 py-5 rounded-lg font-bold text-xl border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200"
+            className="inline-block bg-[#F2FD7D] text-[#28443F] px-10 py-5 rounded-lg font-bold text-xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[8px] hover:translate-y-[8px] active:scale-95 transition-all duration-200"
           >
-            Get Started Now - It&#39; s Free!
+            Get Started Now - It&#39;s Free!
           </Link>
         </div>
       </section>
